@@ -1,11 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CalendarCheck, Clock, MapPin, Sparkles as _s, Star, Wand2, Scissors, UserCheck } from "lucide-react";
+import { CalendarCheck, Clock, MapPin, Star, Wand2, Scissors, UserCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import hero from "@/assets/hero.jpg";
 import { BARBERS, REVIEWS, SERVICES, SHOP } from "@/lib/data";
 import { BarberCard, ServiceCard } from "@/components/site/cards";
 
-void _s;
 
 export const Route = createFileRoute("/")({
   head: () => ({
