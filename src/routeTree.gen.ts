@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BarbersRouteImport } from './routes/barbers'
+import { Route as BookRouteImport } from './routes/book'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as MyBookingsRouteImport } from './routes/my-bookings'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as StyleFinderRouteImport } from './routes/style-finder'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,9 +27,19 @@ const BarbersRoute = BarbersRouteImport.update({
   path: '/barbers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyBookingsRoute = MyBookingsRouteImport.update({
+  id: '/my-bookings',
+  path: '/my-bookings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -34,39 +47,78 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StyleFinderRoute = StyleFinderRouteImport.update({
+  id: '/style-finder',
+  path: '/style-finder',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/barbers': typeof BarbersRoute
+  '/book': typeof BookRoute
   '/contact': typeof ContactRoute
+  '/my-bookings': typeof MyBookingsRoute
   '/services': typeof ServicesRoute
+  '/style-finder': typeof StyleFinderRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/barbers': typeof BarbersRoute
+  '/book': typeof BookRoute
   '/contact': typeof ContactRoute
+  '/my-bookings': typeof MyBookingsRoute
   '/services': typeof ServicesRoute
+  '/style-finder': typeof StyleFinderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/barbers': typeof BarbersRoute
+  '/book': typeof BookRoute
   '/contact': typeof ContactRoute
+  '/my-bookings': typeof MyBookingsRoute
   '/services': typeof ServicesRoute
+  '/style-finder': typeof StyleFinderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/barbers' | '/contact' | '/services'
+  fullPaths:
+    | '/'
+    | '/barbers'
+    | '/book'
+    | '/contact'
+    | '/my-bookings'
+    | '/services'
+    | '/style-finder'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/barbers' | '/contact' | '/services'
-  id: '__root__' | '/' | '/barbers' | '/contact' | '/services'
+  to:
+    | '/'
+    | '/barbers'
+    | '/book'
+    | '/contact'
+    | '/my-bookings'
+    | '/services'
+    | '/style-finder'
+  id:
+    | '__root__'
+    | '/'
+    | '/barbers'
+    | '/book'
+    | '/contact'
+    | '/my-bookings'
+    | '/services'
+    | '/style-finder'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BarbersRoute: typeof BarbersRoute
+  BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
+  MyBookingsRoute: typeof MyBookingsRoute
   ServicesRoute: typeof ServicesRoute
+  StyleFinderRoute: typeof StyleFinderRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,11 +137,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BarbersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-bookings': {
+      id: '/my-bookings'
+      path: '/my-bookings'
+      fullPath: '/my-bookings'
+      preLoaderRoute: typeof MyBookingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -99,14 +165,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/style-finder': {
+      id: '/style-finder'
+      path: '/style-finder'
+      fullPath: '/style-finder'
+      preLoaderRoute: typeof StyleFinderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BarbersRoute: BarbersRoute,
+  BookRoute: BookRoute,
   ContactRoute: ContactRoute,
+  MyBookingsRoute: MyBookingsRoute,
   ServicesRoute: ServicesRoute,
+  StyleFinderRoute: StyleFinderRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
