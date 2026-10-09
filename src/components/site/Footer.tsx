@@ -26,7 +26,7 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <p className="border-t border-border py-5 text-center text-xs text-muted-foreground">© {new Date().getFullYear()} {SHOP.name}. Demo prototype.</p>
+      <p className="border-t border-border px-4 py-5 text-center text-xs text-muted-foreground">© {new Date().getFullYear()} {SHOP.name} · Mahlubi habe. Demo prototype.</p>
     </footer>
   );
 }

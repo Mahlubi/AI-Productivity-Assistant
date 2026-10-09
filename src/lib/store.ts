@@ -26,7 +26,7 @@ function seed(): Appointment[] {
   return rows.map(([name, serviceId, barberId, date, time, phone, status], i) => ({
     id: `FC-D${String(i + 1).padStart(3, "0")}`,
     name, serviceId, barberId, date, time, phone, status,
-    email: name.split(" ")[0].toLowerCase() + "@example.com",
+    email: (name.split(" ")[0] ?? "customer").toLowerCase() + "@example.com",
     createdAt: new Date().toISOString(),
   }));
 }
@@ -45,7 +45,7 @@ function read(): Appointment[] {
     cache = seed();
   }
   localStorage.setItem(KEY, JSON.stringify(cache));
-  return cache!;
+  return cache ?? EMPTY;
 }
 function write(next: Appointment[]) {
   cache = next;
