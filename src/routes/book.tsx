@@ -11,13 +11,13 @@ import { addDays, availableSlots, hasConflict, hoursFor, localDate, makeRef, typ
 import { addAppointment, updateAppointment, useAppointments } from "@/lib/store";
 import { PageHeader } from "@/components/site/cards";
 
-type Search = { service?: string; barber?: string; reschedule?: string };
+type Search = { service?: string | undefined; barber?: string | undefined; reschedule?: string | undefined };
 
 export const Route = createFileRoute("/book")({
   validateSearch: (s: Record<string, unknown>): Search => ({
-    service: typeof s.service === "string" ? s.service : undefined,
-    barber: typeof s.barber === "string" ? s.barber : undefined,
-    reschedule: typeof s.reschedule === "string" ? s.reschedule : undefined,
+    service: typeof s['service'] === "string" ? s['service'] : undefined,
+    barber: typeof s['barber'] === "string" ? s['barber'] : undefined,
+    reschedule: typeof s['reschedule'] === "string" ? s['reschedule'] : undefined,
   }),
   head: () => ({
     meta: [
@@ -78,18 +78,18 @@ function Book() {
   function submit(e: React.FormEvent) {
     e.preventDefault();
     const er: Record<string, string> = {};
-    if (!serviceId) er.service = "Choose a service";
-    if (!barberId) er.barber = "Choose a barber";
-    if (!time) er.time = "Choose a time";
-    if (details.name.trim().length < 2) er.name = "Enter your name";
-    if (!/^(\+27|0)[\s-]?\d{2}[\s-]?\d{3}[\s-]?\d{4}$/.test(details.phone.trim())) er.phone = "Enter a valid SA number, e.g. 082 555 0101";
-    if (!/^\S+@\S+\.\S+$/.test(details.email.trim())) er.email = "Enter a valid email";
+    if (!serviceId) er['service'] = "Choose a service";
+    if (!barberId) er['barber'] = "Choose a barber";
+    if (!time) er['time'] = "Choose a time";
+    if (details.name.trim().length < 2) er['name'] = "Enter your name";
+    if (!/^(\+27|0)[\s-]?\d{2}[\s-]?\d{3}[\s-]?\d{4}$/.test(details.phone.trim())) er['phone'] = "Enter a valid SA number, e.g. 082 555 0101";
+    if (!/^\S+@\S+\.\S+$/.test(details.email.trim())) er['email'] = "Enter a valid email";
     setErrors(er);
     if (Object.keys(er).length) { toast.error("Please complete the highlighted fields."); return; }
 
     const candidate = {
       id: existing?.id ?? makeRef(), serviceId, barberId, date, time,
-      name: details.name.trim(), phone: details.phone.trim(), email: details.email.trim(), notes: details.notes.trim() || undefined,
+      name: details.name.trim(), phone: details.phone.trim(), email: details.email.trim(), notes: details.notes.trim(),
     };
     if (hasConflict(appts, candidate)) { toast.error("That slot was just taken. Please pick another time."); setTime(""); return; }
 
@@ -107,7 +107,8 @@ function Book() {
   }
 
   if (done) {
-    const s = getService(done.serviceId)!; const b = getBarber(done.barberId)!;
+    const s = getService(done.serviceId); const b = getBarber(done.barberId);
+    if (!s || !b) return <p className="p-8">Booking details are unavailable.</p>;
     return (
       <div className="mx-auto max-w-xl px-4 py-16 sm:px-6">
         <div className="rounded-3xl border border-primary/40 bg-card p-8 text-center shadow-gold animate-rise">
@@ -230,7 +231,7 @@ function Book() {
   );
 }
 
-function Step({ n, title, error, children }: { n: number; title: string; error?: string; children: React.ReactNode }) {
+function Step({ n, title, error, children }: { n: number; title: string; error?: string | undefined; children: React.ReactNode }) {
   return (
     <section>
       <div className="mb-4 flex items-center gap-3">
@@ -242,9 +243,9 @@ function Step({ n, title, error, children }: { n: number; title: string; error?:
     </section>
   );
 }
-function Field({ id, label, error, children }: { id: string; label: string; error?: string; children: React.ReactNode }) {
+function Field({ id, label, error, children }: { id: string; label: string; error?: string | undefined; children: React.ReactNode }) {
   return <div className="space-y-1.5"><Label htmlFor={id}>{label}</Label>{children}{error && <p className="text-xs text-destructive">{error}</p>}</div>;
 }
-function Row({ k, v }: { k: string; v?: string }) {
+function Row({ k, v }: { k: string; v?: string | undefined }) {
   return <div className="flex justify-between gap-4"><dt className="text-muted-foreground">{k}</dt><dd className="text-right font-medium">{v || "—"}</dd></div>;
 }

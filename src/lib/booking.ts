@@ -18,7 +18,7 @@ export type Appointment = {
 };
 
 export const toMin = (t: string) => {
-  const [h, m] = t.split(":").map(Number);
+  const [h = 0, m = 0] = t.split(":").map(Number);
   return h * 60 + m;
 };
 export const fromMin = (m: number) =>
@@ -45,7 +45,7 @@ export function availableSlots(
   barberId: string,
   date: string,
   serviceId: string,
-  opts: { now?: Date; ignoreId?: string } = {},
+  opts: { now?: Date; ignoreId?: string | undefined } = {},
 ): string[] {
   const hours = hoursFor(date);
   if (!hours) return [];
